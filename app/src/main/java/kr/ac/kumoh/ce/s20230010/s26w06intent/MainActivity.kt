@@ -1,6 +1,5 @@
 package kr.ac.kumoh.ce.s20230010.s26w06intent
 
-import android.R.attr.onClick
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -48,43 +47,26 @@ fun MainScreen()
             .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(10.dp),
             horizontalAlignment = Alignment.CenterHorizontally
-
-            ) {
-            IntentYoutube()
-            MyFavoritSongYoutube()
-
+            )
+        {
+            IntentButton(Modifier,"강의 유튜브","https://www.youtube.com/results?search_query=android+developers")
+            IntentButton(Modifier,"내 노래 유튜브","https://www.youtube.com/watch?v=jAhCOdrgMao&list=RDjAhCOdrgMao&index=1")
         }
     }
 }
 @Composable
-fun IntentYoutube(modifier: Modifier = Modifier)
+fun IntentButton(modifier: Modifier,text: String,uri: String)
 {
     val content = LocalContext.current
     Button(
         modifier = modifier.fillMaxWidth().padding(30.dp),
         onClick = {
-            val url = Uri.parse("https://www.youtube.com/results?search_query=android+developers")
+            val url = Uri.parse(uri)
             val intent = Intent(Intent.ACTION_VIEW,url)
             content.startActivity(intent)
         }
     ) {
-
-        Text("버튼", fontSize = 30.sp)
+        Text(text, fontSize = 30.sp)
     }
 }
 
-@Composable
-fun MyFavoritSongYoutube(modifier: Modifier = Modifier)
-{
-    val content = LocalContext.current
-    Button(
-        modifier = Modifier.fillMaxWidth().padding(30.dp),
-        onClick = {
-            val uri = Uri.parse("https://www.youtube.com/watch?v=jAhCOdrgMao&list=RDjAhCOdrgMao&index=1")
-            val intent = Intent(Intent.ACTION_VIEW,uri)
-            content.startActivity(intent)
-        }
-    ) {
-        Text("내가 좋아하는 공부음악_youtube", fontSize = 18.sp, lineHeight = 30.sp)
-    }
-}
