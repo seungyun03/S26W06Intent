@@ -1,7 +1,5 @@
 package kr.ac.kumoh.ce.s20230010.s26w06intent
-
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -22,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.net.toUri
 import kr.ac.kumoh.ce.s20230010.s26w06intent.ui.theme.S26W06IntentTheme
 
 class MainActivity : ComponentActivity() {
@@ -39,6 +38,15 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen()
 {
+    val intentitems: List<Pair<String,String>> = listOf(
+        "유튜브" to "https://www.youtube.com/results?search_query=android+developers",
+        "인스타그램" to "https://www.instagram.com/blackpinkofficial/",
+        "페이스북" to "https://www.facebook.com/bangtan.official",
+        "우리집 좌표" to "geo:36.145014,128.393047?z=17",
+        "우리집 주소" to "geo:0,0?q=국립금오공과대학교",
+        "전화" to "tel:054-478-7114",
+        "문자" to "sms:054-478-7114"
+    )
     Scaffold(modifier = Modifier) {
         innerpadding->
         Column(modifier = Modifier
@@ -49,19 +57,21 @@ fun MainScreen()
             horizontalAlignment = Alignment.CenterHorizontally
             )
         {
-            IntentButton(Modifier,"강의 유튜브","https://www.youtube.com/results?search_query=android+developers")
-            IntentButton(Modifier,"내 노래 유튜브","https://www.youtube.com/watch?v=jAhCOdrgMao&list=RDjAhCOdrgMao&index=1")
+         intentitems.forEach { item->
+             IntentButton(Modifier,item)
+         }
         }
     }
 }
 @Composable
-fun IntentButton(modifier: Modifier,text: String,uri: String)
+fun IntentButton(modifier: Modifier,item: Pair<String, String>)
 {
     val content = LocalContext.current
+    val(text,link) = item
     Button(
         modifier = modifier.fillMaxWidth().padding(30.dp),
         onClick = {
-            val url = Uri.parse(uri)
+            val url = link.toUri()
             val intent = Intent(Intent.ACTION_VIEW,url)
             content.startActivity(intent)
         }
